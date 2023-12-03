@@ -1,0 +1,20 @@
+version: "3.9"
+
+networks:
+  docker-compose-masstransit:
+    name: docker-compose-masstransit
+
+services:
+  rabbitmq:
+    image: masstransit/rabbitmq
+    networks:
+      - docker-compose-masstransit
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=masstransit
+      - RABBITMQ_DEFAULT_PASS=W3QdOP412Qqi
+      - RABBITMQ_DEFAULT_VHOST=/
+    profiles:
+      - rabbitmq
