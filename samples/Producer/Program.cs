@@ -1,7 +1,7 @@
 ﻿using System;
 using Consumer.Contracts;
 using MassTransit;
-using MassTransit.Opinionated.Configuration;
+using Opinionated.MassTransit.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

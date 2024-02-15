@@ -1,5 +1,5 @@
-using MassTransit.Opinionated.Configuration;
-using MassTransit.Opinionated.Framework.Events;
+using Opinionated.MassTransit.Configuration;
+using Opinionated.MassTransit.Framework.Events;
 using Producer.Contracts;
 
 namespace Consumer;

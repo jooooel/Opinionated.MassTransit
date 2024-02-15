@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using MassTransit.Opinionated.Framework.Events;
+using Opinionated.MassTransit.Framework.Events;
 
 namespace Producer.Contracts;
 

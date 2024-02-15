@@ -1,5 +1,5 @@
 ﻿using MassTransit;
-using MassTransit.Opinionated.Framework.Commands;
+using Opinionated.MassTransit.Framework.Commands;
 
 namespace Consumer.Contracts;
 

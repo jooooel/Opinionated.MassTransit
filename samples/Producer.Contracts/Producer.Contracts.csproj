@@ -7,6 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\MassTransit.Opinionated\MassTransit.Opinionated.csproj" />
+        <ProjectReference Include="..\..\src\Opinionated.MassTransit\Opinionated.MassTransit.csproj" />
     </ItemGroup>
 </Project>

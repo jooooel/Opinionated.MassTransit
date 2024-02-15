@@ -1,0 +1,68 @@
+name: Publish NuGet package
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - version.txt
+
+  workflow_dispatch:
+
+jobs:
+  build_and_publish_nuget:
+    runs-on: ubuntu-latest
+    name: Build and publish nuget
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        name: Setting up dotnet
+        with:
+          dotnet-version: 8.x
+          source-url: https://nuget.pkg.github.com/jooooel/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Get version number
+        id: get_version
+        run: |
+          version=`cat version.txt`
+          # echo "{version}={$version}" >> $GITHUB_OUTPUT
+          echo "::set-output name=version::$version"
+
+      - name: Restore packages
+        run: dotnet restore
+
+      # The properties in the following steps are taken from the documentation on creating symbol packages
+      # https://docs.microsoft.com/en-us/nuget/create-packages/symbol-packages-snupkg
+      - run: |
+          dotnet build --no-restore \
+            --configuration "${BUILD_CONFIGURATION}" \
+            --property:Version="${PACKAGE_VERSION}" \
+            --property:SourceLinkCreate=true \
+            --property:ContinuousIntegrationBuild=true \
+            --property:EmbedUntrackedSources=true
+        name: Build project
+        env:
+          BUILD_CONFIGURATION: Release
+          PACKAGE_VERSION: ${{ steps.get_version.outputs.version }}
+
+      - run: |
+          # pack using the extra properties
+          dotnet pack --no-build \
+            --configuration $BUILD_CONFIGURATION \
+            --property:Version="${PACKAGE_VERSION}" \
+            --property:IncludeSymbols=true \
+            --property:SymbolPackageFormat=snupkg
+        name: Package nuget
+        env:
+          BUILD_CONFIGURATION: Release
+          PACKAGE_VERSION: ${{ steps.get_version.outputs.version }}
+
+      - run: dotnet nuget push bin/${BUILD_CONFIGURATION}/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+        name: Publish nuget package
+        working-directory: ./src/Opinionated.MassTransit
+        env:
+          BUILD_CONFIGURATION: Release

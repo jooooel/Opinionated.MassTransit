@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\MassTransit.Opinionated\MassTransit.Opinionated.csproj" />
+        <ProjectReference Include="..\..\src\Opinionated.MassTransit\Opinionated.MassTransit.csproj" />
         <ProjectReference Include="..\Consumer.Contracts\Consumer.Contracts.csproj" />
         <ProjectReference Include="..\Producer.Contracts\Producer.Contracts.csproj" />
     </ItemGroup>

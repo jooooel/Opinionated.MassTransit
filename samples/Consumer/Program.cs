@@ -1,6 +1,6 @@
 ﻿using Consumer;
 using Consumer.Contracts;
-using MassTransit.Opinionated.Configuration;
+using Opinionated.MassTransit.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Producer.Contracts;
