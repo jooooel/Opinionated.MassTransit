@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Azure.Identity;
 using Azure.Storage.Blobs;
 using MassTransit;
@@ -99,6 +100,12 @@ public class MassTransitAzureServiceBusConfigurationBuilder : IMassTransitConfig
                 }
 
                 serviceBusBusFactoryConfigurator.Host(_configuration.GetConnectionString());
+
+                serviceBusBusFactoryConfigurator.ConfigureJsonSerializerOptions(options =>
+                {
+                    options.Converters.Insert(0, new JsonStringEnumConverter());
+                    return options;
+                });
 
                 if (_useMessageScheduler)
                 {

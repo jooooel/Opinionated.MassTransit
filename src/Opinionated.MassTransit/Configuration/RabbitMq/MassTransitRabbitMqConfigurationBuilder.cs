@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -81,6 +82,12 @@ public class MassTransitRabbitMqConfigurationBuilder : IMassTransitConfiguration
             busConfigurator.UsingRabbitMq((context, rabbitMqBusFactoryConfigurator) =>
             {
                 rabbitMqBusFactoryConfigurator.Host(_configuration.GetConnectionString());
+
+                rabbitMqBusFactoryConfigurator.ConfigureJsonSerializerOptions(options =>
+                {
+                    options.Converters.Insert(0, new JsonStringEnumConverter());
+                    return options;
+                });
 
                 if (_useMessageScheduler)
                 {
