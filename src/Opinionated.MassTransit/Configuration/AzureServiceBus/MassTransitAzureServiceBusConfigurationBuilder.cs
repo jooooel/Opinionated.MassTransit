@@ -123,7 +123,7 @@ public class MassTransitAzureServiceBusConfigurationBuilder : IMassTransitConfig
 
         _services.Configure<MassTransitHostOptions>(options =>
         {
-            options.WaitUntilStarted = true;
+            options.WaitUntilStarted = _configuration.WaitUntilStarted();
             options.StartTimeout = TimeSpan.FromSeconds(30);
             options.StopTimeout = TimeSpan.FromMinutes(1);
         });

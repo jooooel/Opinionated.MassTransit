@@ -10,7 +10,7 @@ public static class ConfigurationExtensions
 
     public static TransportType? GetTransportType(this IConfiguration configuration)
     {
-        var configPath = $"{ConfigBasePath}:Transport";
+        const string configPath = $"{ConfigBasePath}:Transport";
         var transportType = configuration.GetValue<TransportType?>(configPath);
         if (transportType == null)
         {
@@ -22,7 +22,7 @@ public static class ConfigurationExtensions
 
     public static string GetConnectionString(this IConfiguration configuration)
     {
-        var configPath = $"{ConfigBasePath}:ConnectionString";
+        const string configPath = $"{ConfigBasePath}:ConnectionString";
         var connectionString = configuration.GetValue<string>(configPath);
         if (string.IsNullOrEmpty(connectionString))
         {
@@ -34,21 +34,27 @@ public static class ConfigurationExtensions
 
     public static Uri GetAzureStorageUri(this IConfiguration configuration)
     {
-        var configPath = $"{ConfigBasePath}:AzureStorage:AccountName";
+        const string configPath = $"{ConfigBasePath}:AzureStorage:AccountName";
         var accountName = configuration.GetValue<string>(configPath);
         return string.IsNullOrEmpty(accountName) ? null : new Uri($"https://{accountName}.blob.core.windows.net");
     }
 
     public static string GetMessageDataStorageContainerName(this IConfiguration configuration)
     {
-        var configPath = $"{ConfigBasePath}:AzureStorage:MessageDataContainerName";
+        const string configPath = $"{ConfigBasePath}:AzureStorage:MessageDataContainerName";
         return configuration.GetValue<string>(configPath);
     }
 
     public static bool? EnablePrometheus(this IConfiguration configuration)
     {
-        var configPath = $"{ConfigBasePath}:EnablePrometheusMetrics";
+        const string configPath = $"{ConfigBasePath}:EnablePrometheusMetrics";
         return configuration.GetValue<bool?>(configPath);
+    }
+
+    public static bool WaitUntilStarted(this IConfiguration configuration)
+    {
+        const string configPath = $"{ConfigBasePath}:WaitUntilStarted";
+        return configuration.GetValue<bool?>(configPath) ?? true;
     }
 
     public static ConsumerConfiguration GetConsumerConfiguration<TConsumer>(this IConfiguration configuration) where TConsumer : class, IConsumer
