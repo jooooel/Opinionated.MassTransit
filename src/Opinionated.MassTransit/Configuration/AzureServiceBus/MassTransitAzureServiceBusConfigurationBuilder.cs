@@ -318,7 +318,7 @@ public class MassTransitAzureServiceBusConfigurationBuilder : IMassTransitConfig
 
             // Use the outbox pattern so that messages are sent once the operation completes.
             // No messages will be sent if there are exceptions.
-            receiveEndpointConfigurator.UseInMemoryOutbox();
+            receiveEndpointConfigurator.UseInMemoryOutbox(context);
 
             receiveEndpointConfigurator.ConfigureSaga(context, sagaConfigurator);
         };
