@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
 
@@ -16,8 +17,8 @@ public abstract class BaseBatchCommandConsumer<TCommand> : IBatchCommandConsumer
 
         var commands = context.Message.Select(c => c.Message).ToList();
 
-        await ExecuteManyAsync(commands);
+        await ExecuteManyAsync(commands, context.CancellationToken);
     }
 
-    public abstract Task ExecuteManyAsync(IEnumerable<TCommand> command);
+    public abstract Task ExecuteManyAsync(IEnumerable<TCommand> command, CancellationToken cancellationToken = default);
 }
