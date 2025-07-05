@@ -4,7 +4,7 @@ public class ConsumerConfiguration : IConsumerConfiguration
 {
     public int PrefetchCount { get; set; } = 20;
 
-    public int[] RetryIntervals { get; set; } = { 500, 2000 };
+    public int[] RetryIntervals { get; set; }
 
     public int MaxAutoRenewDuration { get; set;  } = 30;
 

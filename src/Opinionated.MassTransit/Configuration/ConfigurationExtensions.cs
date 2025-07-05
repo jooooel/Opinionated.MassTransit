@@ -62,6 +62,12 @@ public static class ConfigurationExtensions
         var configPath = $"{ConfigBasePath}:ConsumerConfiguration:{typeof(TConsumer).Name}";
         var consumerConfiguration = new ConsumerConfiguration();
         configuration.GetSection(configPath).Bind(consumerConfiguration);
+        
+        if (consumerConfiguration.RetryIntervals is null)
+        {
+            consumerConfiguration.RetryIntervals = new[] { 500, 2000 };
+        }
+        
         return consumerConfiguration;
     }
 
@@ -70,6 +76,12 @@ public static class ConfigurationExtensions
         var configPath = $"{ConfigBasePath}:ConsumerConfiguration:{typeof(TConsumer).Name}";
         var batchConsumerConfiguration = new BatchConsumerConfiguration();
         configuration.GetSection(configPath).Bind(batchConsumerConfiguration);
+        
+        if (batchConsumerConfiguration.RetryIntervals is null)
+        {
+            batchConsumerConfiguration.RetryIntervals = new[] { 500, 2000 };
+        }
+        
         return batchConsumerConfiguration;
     }
 
@@ -78,6 +90,12 @@ public static class ConfigurationExtensions
         var configPath = $"{ConfigBasePath}:ConsumerConfiguration:{typeof(TSagaStateMachineInstance).Name}";
         var consumerConfiguration = new ConsumerConfiguration();
         configuration.GetSection(configPath).Bind(consumerConfiguration);
+        
+        if (consumerConfiguration.RetryIntervals is null)
+        {
+            consumerConfiguration.RetryIntervals = new[] { 500, 2000 };
+        }
+        
         return consumerConfiguration;
     }
 }
