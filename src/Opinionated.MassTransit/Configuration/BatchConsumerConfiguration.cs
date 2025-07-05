@@ -4,7 +4,7 @@ public class BatchConsumerConfiguration : IConsumerConfiguration
 {
     public int PrefetchCount { get; set; } = 100;
 
-    public int[] RetryIntervals { get; set; } = { 500, 2000 };
+    public int[] RetryIntervals { get; set; }
 
     public int MaxAutoRenewDuration { get; } = 30;
 
