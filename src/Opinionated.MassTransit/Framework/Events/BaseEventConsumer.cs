@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using MassTransit;
 
 namespace Opinionated.MassTransit.Framework.Events;
@@ -12,8 +13,8 @@ public abstract class BaseEventConsumer<TEvent> : IEventConsumer<TEvent>
     {
         Context = context;
         var @event = context.Message;
-        await ExecuteAsync(@event);
+        await ExecuteAsync(@event, context.CancellationToken);
     }
 
-    public abstract Task ExecuteAsync(TEvent @event);
+    public abstract Task ExecuteAsync(TEvent @event, CancellationToken cancellationToken = default);
 }

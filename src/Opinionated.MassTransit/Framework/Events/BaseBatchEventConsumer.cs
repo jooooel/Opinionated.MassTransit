@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
 
@@ -14,8 +15,8 @@ public abstract class BaseBatchEventConsumer<TEvent> : IBatchEventConsumer<TEven
     {
         Context = context;
         var events = context.Message.Select(c => c.Message).ToList();
-        await ExecuteManyAsync(events);
+        await ExecuteManyAsync(events, context.CancellationToken);
     }
 
-    public abstract Task ExecuteManyAsync(IEnumerable<TEvent> events);
+    public abstract Task ExecuteManyAsync(IEnumerable<TEvent> events, CancellationToken cancellationToken = default);
 }

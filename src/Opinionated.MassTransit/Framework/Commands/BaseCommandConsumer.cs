@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using MassTransit;
 using Opinionated.MassTransit.Framework.Validation;
 
@@ -14,16 +15,16 @@ public abstract class BaseCommandConsumer<TCommand> : ICommandConsumer<TCommand>
 
         var command = Context.Message;
 
-        var validationResult = await ValidateAsync(command);
+        var validationResult = await ValidateAsync(command, context.CancellationToken);
         if (validationResult.StatusCode != ValidationStatusCode.ValidationFail)
         {
-            await ExecuteAsync(command);
+            await ExecuteAsync(command, context.CancellationToken);
         }
     }
 
-    public abstract Task ExecuteAsync(TCommand command);
+    public abstract Task ExecuteAsync(TCommand command, CancellationToken cancellationToken = default);
 
-    protected virtual async Task<Opinionated.MassTransit.Framework.Validation.ValidationResult> ValidateAsync(TCommand command) =>
+    protected virtual async Task<Opinionated.MassTransit.Framework.Validation.ValidationResult> ValidateAsync(TCommand command, CancellationToken cancellationToken = default) =>
         await Task.FromResult(ValidationSuccess());
 
     private static Opinionated.MassTransit.Framework.Validation.ValidationResult ValidationSuccess() => new(ValidationStatusCode.ValidationSuccess);
